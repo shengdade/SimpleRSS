@@ -1,9 +1,14 @@
 package com.dadesheng.simplerss;
 
+import android.app.ListActivity;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ListView;
 
 import org.xml.sax.SAXException;
 
@@ -16,18 +21,28 @@ import nl.matshofman.saxrssreader.RssFeed;
 import nl.matshofman.saxrssreader.RssItem;
 import nl.matshofman.saxrssreader.RssReader;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends ListActivity {
     private static final String TAG = "MainActivity";
+    ArrayList<RssItem> rssItems;
+    ListView listView;
+    Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         String urlString = "http://www-2.rotman.utoronto.ca/rotmanheadlines/rss.aspx";
         FetchRSSTask fetchTask = new FetchRSSTask();
         fetchTask.execute(urlString);
+        listView = getListView();
+    }
 
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        RssItem item = (RssItem) listView.getAdapter().getItem(position);
+        String link = item.getLink();
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
+        startActivity(browserIntent);
     }
 
     class FetchRSSTask extends AsyncTask<String, Void, Void> {
@@ -37,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 URL url = new URL(urls[0]);
                 RssFeed feed = RssReader.read(url);
-                ArrayList<RssItem> rssItems = feed.getRssItems();
+                rssItems = feed.getRssItems();
                 for (RssItem rssItem : rssItems) {
                     Log.i("RSS Reader", rssItem.getTitle());
                 }
@@ -54,6 +69,11 @@ public class MainActivity extends AppCompatActivity {
             }
 
             return null;
+        }
+
+        protected void onPostExecute(Void result) {
+            RssItemAdapter adapter = new RssItemAdapter(context, R.layout.item_row, rssItems);
+            setListAdapter(adapter);
         }
     }
 }
