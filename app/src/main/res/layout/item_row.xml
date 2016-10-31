@@ -3,21 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingBottom="5sp"
-    android:paddingTop="5sp">
+    android:padding="12sp">
 
     <TextView
         android:id="@+id/labelTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/labelDescription"
-        android:layout_width="match_parent"
-        android:layout_height="55sp"
-        android:gravity="start"
-        android:textSize="15sp" />
+        android:textSize="16sp" />
 
 </LinearLayout>

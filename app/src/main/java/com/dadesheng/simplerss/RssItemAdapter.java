@@ -1,8 +1,7 @@
 package com.dadesheng.simplerss;
 
-import android.app.ListActivity;
 import android.content.Context;
-import android.text.Html;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,11 +31,10 @@ public class RssItemAdapter extends ArrayAdapter<RssItem> {
         ItemHolder holder = null;
 
         if (row == null) {
-            LayoutInflater inflater = ((ListActivity) context).getLayoutInflater();
+            LayoutInflater inflater = ((AppCompatActivity) context).getLayoutInflater();
             row = inflater.inflate(layoutResourceId, parent, false);
             holder = new ItemHolder();
             holder.txtTitle = (TextView) row.findViewById(R.id.labelTitle);
-            holder.txtDescription = (TextView) row.findViewById(R.id.labelDescription);
             row.setTag(holder);
         } else {
             holder = (ItemHolder) row.getTag();
@@ -44,13 +42,11 @@ public class RssItemAdapter extends ArrayAdapter<RssItem> {
 
         RssItem item = data.get(position);
         holder.txtTitle.setText(item.getTitle());
-        holder.txtDescription.setText(Html.fromHtml(item.getDescription()));
 
         return (row);
     }
 
     private static class ItemHolder {
         TextView txtTitle;
-        TextView txtDescription;
     }
 }
