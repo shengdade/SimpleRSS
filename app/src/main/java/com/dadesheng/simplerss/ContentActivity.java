@@ -12,6 +12,7 @@ import android.widget.TextView;
 public class ContentActivity extends AppCompatActivity {
     private String title;
     private String content;
+    private String link;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +22,7 @@ public class ContentActivity extends AppCompatActivity {
         Intent i = getIntent();
         title = i.getStringExtra("itemTitle");
         content = i.getStringExtra("itemDescription");
+        link = i.getStringExtra("itemLink");
 
         TextView txtTitle = (TextView) findViewById(R.id.labelContentTitle);
         TextView txtContent = (TextView) findViewById(R.id.labelContent);
@@ -37,7 +39,7 @@ public class ContentActivity extends AppCompatActivity {
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
                 sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, title);
-                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, Html.fromHtml(content));
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, Html.fromHtml(link));
                 startActivity(Intent.createChooser(sharingIntent, "Share via"));
                 break;
             default:

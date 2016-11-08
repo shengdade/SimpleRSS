@@ -43,6 +43,7 @@ public class HeadlinesActivity extends AppCompatActivity {
                         Intent viewItem = new Intent(context, ContentActivity.class);
                         viewItem.putExtra("itemTitle", item.getTitle());
                         viewItem.putExtra("itemDescription", item.getDescription());
+                        viewItem.putExtra("itemLink", item.getLink());
                         startActivity(viewItem);
                     }
                 }
