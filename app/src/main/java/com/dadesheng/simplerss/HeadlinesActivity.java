@@ -31,6 +31,11 @@ public class HeadlinesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        boolean isFirstTime = MyPreferences.isFirst(HeadlinesActivity.this);
+        if (isFirstTime) {
+            startActivity(new Intent(context, AboutActivity.class));
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_headlines);
         listView = (ListView) findViewById(R.id.headline_list);
@@ -58,7 +63,7 @@ public class HeadlinesActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_about:
-                onBackPressed();
+                startActivity(new Intent(context, AboutActivity.class));
                 break;
             default:
                 break;

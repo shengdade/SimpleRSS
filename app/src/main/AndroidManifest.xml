@@ -13,14 +13,15 @@
         <activity
             android:name=".HeadlinesActivity"
             android:label="@string/actionbar_headlines">
-        </activity>
-        <activity
-            android:name=".AboutActivity"
-            android:label="About">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".AboutActivity"
+            android:noHistory="true"
+            android:label="About">
         </activity>
         <activity
             android:name=".ContentActivity"
