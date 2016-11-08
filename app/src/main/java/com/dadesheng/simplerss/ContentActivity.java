@@ -9,7 +9,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 public class ContentActivity extends AppCompatActivity {
+    private FirebaseAnalytics mFirebaseAnalytics;
     private String title;
     private String content;
     private String link;
@@ -18,6 +21,7 @@ public class ContentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         Intent i = getIntent();
         title = i.getStringExtra("itemTitle");
@@ -36,6 +40,11 @@ public class ContentActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_share:
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, title);
+                bundle.putString(FirebaseAnalytics.Param.VALUE, link);
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SHARE, bundle);
+
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
                 sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, title);

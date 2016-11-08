@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
@@ -25,6 +27,7 @@ import nl.matshofman.saxrssreader.RssReader;
 
 public class HeadlinesActivity extends AppCompatActivity {
     private static final String TAG = "HeadlinesActivity";
+    private FirebaseAnalytics mFirebaseAnalytics;
     ArrayList<RssItem> rssItems;
     ListView listView;
     Context context = this;
@@ -38,6 +41,8 @@ public class HeadlinesActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_headlines);
+        setTitle(R.string.actionbar_headlines);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         listView = (ListView) findViewById(R.id.headline_list);
 
         listView.setOnItemClickListener(
@@ -45,6 +50,11 @@ public class HeadlinesActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
                         RssItem item = (RssItem) listView.getAdapter().getItem(position);
+
+                        Bundle bundle = new Bundle();
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, item.getTitle());
+                        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
                         Intent viewItem = new Intent(context, ContentActivity.class);
                         viewItem.putExtra("itemTitle", item.getTitle());
                         viewItem.putExtra("itemDescription", item.getDescription());
